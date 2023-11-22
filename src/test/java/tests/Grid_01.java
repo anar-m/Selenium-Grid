@@ -1,4 +1,4 @@
-package tets;
+package tests;
 
 import manage.DriverManage;
 import org.openqa.selenium.WebDriver;

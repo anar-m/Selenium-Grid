@@ -70,10 +70,48 @@ public class DriverManage {
 
     }
 
+    public WebDriver setUpEdgeDriver(){
+        capabilities.setPlatform(Platform.ANY);
+        capabilities.setBrowserName(ConfigReader.getProperty("edgeBrowser"));
+        capabilities.setVersion(ConfigReader.getProperty("edgeVersion"));
+        EdgeOptions edgeOptions = new EdgeOptions();
+        edgeOptions.merge(capabilities);
+        try {
+            driver = new RemoteWebDriver(new URL(ConfigReader.getProperty("url")), edgeOptions);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().window().maximize();
+        System.out.println("*****  Setup Edge Driver *****");
+        return driver;
+    }
+
+    public WebDriver setUpIEDriver(){
+        capabilities.setPlatform(Platform.ANY);
+        capabilities.setBrowserName(ConfigReader.getProperty("IEBrowser"));
+        capabilities.setVersion(ConfigReader.getProperty("IEVersion"));
+        InternetExplorerOptions IEOptions = new InternetExplorerOptions();
+        IEOptions.merge(capabilities);
+        try {
+            driver = new RemoteWebDriver(new URL(ConfigReader.getProperty("url")), IEOptions);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().window().maximize();
+        System.out.println("*****  Setup IE Driver *****");
+        return driver;
+    }
+
+
     public static void setDriver(String browser) {
 
+
         switch (browser){
+
             case "grid_chrome" : {
+
                 ChromeOptions chromeOptions = new ChromeOptions();
                 try {
                     driver = new RemoteWebDriver(new URL(ConfigReader.getProperty("url")), chromeOptions);
